@@ -45,7 +45,7 @@ async function login(req,res){
             message : "Wrong Password"
         })
     }
-    const token = jwt.sign(existingUser.id,process.env.JWT_SECRET);
+    const token = jwt.sign({userId : existingUser.id},process.env.JWT_SECRET);
     res.cookie("token", token);
     res.status(200).json({
         "username" : existingUser.username,
@@ -53,5 +53,26 @@ async function login(req,res){
     })
 }
 
+async function profile(req,res){
+    const user = await userModel.findById(req.user,"username , email");
+    if(!user){
+        res.status(404).json({
+            message : "User Does Not Exist"
+        })
+    }
+    res.status(200).json({
+        message : "User Details",
+        user : user
+    })
+}
 
-export {register,login}
+async function logout(req,res){
+    res.clearCookie("token");
+    res.status(200).json({
+        message : "User Logged Out"
+    })
+}
+
+
+
+export {register,login ,profile,logout}
