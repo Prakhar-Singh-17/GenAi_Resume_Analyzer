@@ -14,7 +14,7 @@ if(!username || !email || !password )
 }
 const existingUser = await userModel.findOne({email : email});
 if(existingUser){
-      return res.status(401).json({
+      return res.status(409).json({
         message : "User Already Exists"
     })
 }
