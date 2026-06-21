@@ -4,7 +4,7 @@ import 'dotenv/config'
 import { userRoutes } from "./routes/userRoutes.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-
+import { aiServiceRouter } from "./routes/aiServiceRoutes.js";
 
 
 const app = express();
@@ -18,6 +18,7 @@ app.use(cors({
     credentials: true
 }));
 app.use("/user",userRoutes)
+app.use("/ai",aiServiceRouter);
 
 
 app.listen(port,()=>{
