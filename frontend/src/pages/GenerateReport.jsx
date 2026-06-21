@@ -22,8 +22,8 @@ function GenerateReport() {
 
       const report = await axios.post("/ai/aiReport", formData);
 
-      navigate(`/report/${report._id}`);
-      console.log("Report Generated");
+      console.log("Report Generated",report);
+      navigate(`/report/${report.interviewRepor._id}`);
     } catch (err) {
       console.log(err);
     } finally {
