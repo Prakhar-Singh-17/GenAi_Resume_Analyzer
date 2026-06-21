@@ -1,15 +1,18 @@
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
 
-async function verifyToken(req ,res ,next){
-    const token = req.cookies.token;
-    if(!token){
-        res.status(404).json({
-            message : "Token Not Found"
-        })
-    }
-    const decoded = jwt.verify(token,process.env.JWT_SECRET);
+async function verifyToken(req, res, next) {
+  const token = req.cookies.token;
+  if (!token) {
+    return res.status(401).json({ message: "Token not found" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded.userId;
-    next();
+    return next();
+  } catch (err) {
+    return res.status(401).json({ message: "Invalid or expired token" });
+  }
 }
 
-export {verifyToken}
+export { verifyToken }
