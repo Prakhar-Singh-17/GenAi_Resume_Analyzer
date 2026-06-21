@@ -11,7 +11,6 @@ function Navbar() {
     try {
       await axios.get("/user/logout");
       setUser(null);
-
       navigate("/login", { replace: true });
     } catch (error) {
       console.log(error);
