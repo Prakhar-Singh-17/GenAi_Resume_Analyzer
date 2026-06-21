@@ -14,8 +14,8 @@ function App() {
   return (
     <AuthContextProvider>
       <Routes>
-        <Route path="lottie" element = {<LottieCheck/>}></Route>
         <Route path="/login" element={<Login />}></Route>
+        <Route path="lottie" element = {<LottieCheck/>}></Route>
         <Route path="/register" element={<Register />}></Route>
         <Route
           path="/"
