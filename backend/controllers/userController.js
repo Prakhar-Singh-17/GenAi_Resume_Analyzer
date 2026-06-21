@@ -72,7 +72,11 @@ async function profile(req, res) {
 }
 
 async function logout(req, res) {
-  res.clearCookie("token");
+  res.clearCookie("token", {
+  httpOnly: true,
+    sameSite: "none",
+    secure: true,
+});
   res.status(200).json({
     message: "User Logged Out",
   });
