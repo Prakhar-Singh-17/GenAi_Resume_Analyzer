@@ -34,7 +34,7 @@ async function fetchAllReports(req,res){
     try{
 
         const user = req.user;
-        const reports = await interviewReportModel.find({user : user}).select("_id title matchScore createdAt skillGaps")
+        const reports = await interviewReportModel.find({user : user}).select("_id title matchScore createdAt skillGaps").sort({ createdAt: -1 });
         res.status(200).json({
             reports : reports
         })

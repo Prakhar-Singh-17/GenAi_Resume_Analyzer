@@ -2,13 +2,15 @@ import { useState } from "react";
 import { axios } from "../utilites/axiosConfig";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { useNavigate } from "react-router";
+import {toast} from "react-toastify"
 
 function GenerateReport() {
   const navigate = useNavigate();
   const [resume, setResume] = useState(null);
   const [jobDescription, setJobDescription] = useState("");
   const [selfDescription, setSelfDescription] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [aiError , setaiError] = useState(false);
 
   async function handleSubmit(e) {
     try {
@@ -22,10 +24,13 @@ function GenerateReport() {
 
       const report = await axios.post("/ai/aiReport", formData);
 
-      console.log("Report Generated",report);
+      toast.success("Report Generated Successfully!");
       navigate(`/report/${report.data.interviewReport._id}`);
     } catch (err) {
-      console.log(err);
+      if(err.response.status===503){
+        setaiError(true)
+        toast.error("Could not generate report !");
+      }
     } finally {
       setLoading(false);
     }
@@ -33,10 +38,10 @@ function GenerateReport() {
 
   return (
     <div className="min-h-screen bg-[#140f1f] relative overflow-hidden flex items-center justify-center px-4 py-8">
-      {/* Loading Screen Overlay */}
+
       {loading && (
         <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#140f1f]/95 backdrop-blur-md">
-          <div className="w-[260px] sm:w-[320px]">
+          <div className="w-80 sm:w-[500px]">
                       <DotLottieReact src="loading.json" autoplay loop />
           </div>
 
@@ -50,7 +55,18 @@ function GenerateReport() {
         </div>
       )}
 
-      {/* Background glow */}
+            {aiError && (
+        <div className="fixed inset-0 z-50 flex flex-col gap-6 items-center justify-center bg-[#140f1f]/95 backdrop-blur-md">
+          <div className="w-65 sm:w-[500px] bg-white rounded-md">
+                      <DotLottieReact src="503_error.json" autoplay loop />
+          </div>
+          <p className="max-w-md text-center text-sm sm:text-lg text-white px-2">
+            The AI service is currently experiencing high demand. Please wait a moment and try again..
+          </p>
+          <button className="w-30 rounded-lg bg-gradient-to-r from-fuchsia-500 to-violet-600  px-2 py-2 text-white font-semibold text-sm sm:text-base shadow-lg hover:opacity-90 transition disabled:opacity-50" onClick={()=>setaiError(!aiError)}>Okay</button>
+        </div>
+      )}
+
       <div className="absolute top-[-120px] left-[-100px] h-80 w-80 rounded-full bg-fuchsia-500/20 blur-3xl"></div>
       <div className="absolute bottom-[-120px] right-[-80px] h-96 w-96 rounded-full bg-violet-500/20 blur-3xl"></div>
       <div className="absolute top-1/3 right-1/4 h-72 w-72 rounded-full bg-indigo-500/15 blur-3xl"></div>

@@ -43,7 +43,6 @@ function PreviousReports() {
 
   return (
     <div className="min-h-screen bg-[#140f1f] relative overflow-hidden px-4 py-8">
-      {/* Background glow */}
       <div className="absolute top-[-120px] left-[-100px] h-80 w-80 rounded-full bg-fuchsia-500/20 blur-3xl"></div>
       <div className="absolute bottom-[-120px] right-[-80px] h-96 w-96 rounded-full bg-violet-500/20 blur-3xl"></div>
       <div className="absolute top-1/3 right-1/4 h-72 w-72 rounded-full bg-indigo-500/15 blur-3xl"></div>
@@ -60,11 +59,10 @@ function PreviousReports() {
           </p>
         </div>
 
-        {/* Loading State */}
         {loading && (
-          <div className="rounded-3xl border border-white/10 bg-[#1b1430]/80 backdrop-blur-xl shadow-2xl p-10 text-center">
-            <div className="w-[260px] sm:w-[320px]">
-              <DotLottieReact src="loading.json" autoplay loop />
+          <div className=" flex flex-col justify-center items-center rounded-3xl border border-white/10 bg-[#1b1430]/80 backdrop-blur-xl shadow-2xl p-10 text-center">
+            <div className="w-65 sm:w-[320px]">
+              <DotLottieReact src="sandy_loading.json" autoplay loop />
             </div>
             <h2 className="text-2xl font-bold text-white">
               Loading previous reports...
@@ -75,7 +73,6 @@ function PreviousReports() {
           </div>
         )}
 
-        {/* Error State */}
         {!loading && error && (
           <div className="rounded-3xl border border-red-400/20 bg-red-500/10 backdrop-blur-xl shadow-2xl p-10 text-center">
             <h2 className="text-2xl font-bold text-red-300">
@@ -85,7 +82,6 @@ function PreviousReports() {
           </div>
         )}
 
-        {/* Empty State */}
         {!loading && !error && reports.length === 0 && (
           <div className="rounded-3xl border border-white/10 bg-[#1b1430]/80 backdrop-blur-xl shadow-2xl p-10 text-center">
             <h2 className="text-2xl font-bold text-white">
@@ -97,7 +93,6 @@ function PreviousReports() {
           </div>
         )}
 
-        {/* Reports Grid */}
         {!loading && !error && reports.length > 0 && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {reports.map((report) => (
@@ -105,7 +100,6 @@ function PreviousReports() {
                 key={report._id}
                 className="rounded-3xl border border-white/10 bg-[#1b1430]/80 backdrop-blur-xl shadow-2xl p-6 sm:p-7 flex flex-col"
               >
-                {/* Top section */}
                 <div className="flex items-start justify-between gap-4">
                   <div>
                     <h2 className="text-2xl font-bold text-white leading-snug">
@@ -121,7 +115,6 @@ function PreviousReports() {
                   </div>
                 </div>
 
-                {/* Skill gaps */}
                 <div className="mt-6">
                   <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-300 mb-3">
                     Key Skill Gaps
@@ -151,7 +144,6 @@ function PreviousReports() {
                   )}
                 </div>
 
-                {/* Bottom section */}
                 <div className="mt-8 flex items-center justify-between gap-4 border-t border-white/10 pt-5">
                   <div>
                     <p className="text-sm text-gray-400">

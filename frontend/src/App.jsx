@@ -9,10 +9,12 @@ import PreviousReports from "./pages/PreviousReports";
 import Home from "./pages/Home";
 import LottieCheck from "./pages/LottieCheck";
 import ViewReport from "./pages/ViewReport";
+import {ToastContainer} from "react-toastify"
 
 function App() {
   return (
     <AuthContextProvider>
+      <ToastContainer/>
       <Routes>
         <Route path="/login" element={<Login />}></Route>
         <Route path="lottie" element = {<LottieCheck/>}></Route>

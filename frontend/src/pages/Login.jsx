@@ -3,8 +3,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "../utilites/zodSchemas";
 import { axios } from "../utilites/axiosConfig";
 import { Link, useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "../AuthContext/AuthContextProvider";
+import { toast } from "react-toastify";
 
 function Login() {
   const { user, setUser } = useContext(AuthContext);
@@ -24,10 +25,20 @@ function Login() {
       .then((res) => {
         if (res.status === 200) {
           setUser(res.data.username);
+          toast.success(`Welcome , ${res.data.username}`);
           navigate("/", { replace: true });
         }
       })
-      .catch((e) => console.log(e));
+      .catch((e) => {console.log();
+        if(e.response.status === 401 || e.response.status === 404){
+
+          toast.error(e.response.data.message);
+        }
+      else{
+        console.log(e)
+        toast.error("Something went wrong");
+      }
+      });
   }
 
   return (

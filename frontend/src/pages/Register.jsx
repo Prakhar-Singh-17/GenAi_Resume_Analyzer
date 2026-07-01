@@ -3,6 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema } from "../utilites/zodSchemas";
 import { axios } from "../utilites/axiosConfig";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function Register() {
   const navigate = useNavigate();
@@ -18,28 +19,32 @@ function Register() {
       .post("/user/register", { username, email, password })
       .then((res) => {
         if (res.status === 200) {
+          toast.success("Registeration Successful");
           navigate("/login");
         }
       })
-      .catch((e) => console.log(e));
+      .catch((e) => {
+        if (e.response.status === 409) {
+          toast.error("User Already Exists");
+        } else {
+          toast.error("Something went wrong");
+        }
+      });
   }
 
   return (
     <div className="min-h-screen bg-[#140f1f] relative overflow-hidden flex items-center justify-center px-4 py-8">
-      {/* Background glow blobs */}
       <div className="absolute top-[-120px] left-[-100px] h-80 w-80 rounded-full bg-fuchsia-500/20 blur-3xl"></div>
       <div className="absolute bottom-[-120px] right-[-80px] h-96 w-96 rounded-full bg-violet-500/20 blur-3xl"></div>
       <div className="absolute top-1/3 right-1/4 h-72 w-72 rounded-full bg-indigo-500/15 blur-3xl"></div>
 
       <div className="relative z-10 w-full max-w-6xl overflow-hidden rounded-3xl border border-white/10 bg-[#1b1430]/80 backdrop-blur-xl shadow-2xl">
         <div className="grid grid-cols-1 lg:grid-cols-2">
-          {/* LEFT BRAND PANEL */}
           <div className="relative hidden lg:flex flex-col justify-between border-r border-white/10 p-10 bg-gradient-to-br from-fuchsia-500/10 via-transparent to-violet-500/10">
             <div>
-              {/* Logo */}
               <div className="flex items-center gap-4">
                 <div className="flex h-14 w-14 items-center justify-center rounded-2xl text-xl font-bold text-white shadow-lg">
-                  <img src="logo.png"/>
+                  <img src="logo.png" />
                 </div>
 
                 <div>
@@ -49,8 +54,6 @@ function Register() {
                   </p>
                 </div>
               </div>
-
-              {/* Heading */}
               <div className="mt-12">
                 <h2 className="text-4xl font-bold leading-tight text-white">
                   Prepare smarter for every interview.
@@ -62,7 +65,6 @@ function Register() {
                 </p>
               </div>
 
-              {/* Feature list */}
               <div className="mt-10 space-y-4">
                 <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
                   <p className="font-semibold text-white">
@@ -95,7 +97,6 @@ function Register() {
               </div>
             </div>
 
-            {/* Bottom note */}
             <div className="mt-10 rounded-2xl border border-fuchsia-400/20 bg-fuchsia-500/10 p-4">
               <p className="text-sm font-medium text-fuchsia-200">
                 Built for students, freshers, and early-career developers who
@@ -104,7 +105,6 @@ function Register() {
             </div>
           </div>
 
-          {/* RIGHT FORM PANEL */}
           <div className="p-6 sm:p-8 md:p-10">
             {/* Mobile branding */}
             <div className="mb-8 lg:hidden">
